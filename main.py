@@ -11,5 +11,5 @@ if __name__ == "__main__":
     )
 
     os.makedirs("data", exist_ok=True)
-    grades = crawler.get_grade()
+    grades = crawler.get_grades()
     json.dump(grades, open("data/grades.json", "w", encoding="utf-8"), ensure_ascii=False)

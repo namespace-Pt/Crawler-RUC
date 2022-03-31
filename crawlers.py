@@ -2,6 +2,7 @@ import json
 import random
 import requests
 from bs4 import BeautifulSoup
+from utils import *
 
 
 
@@ -66,8 +67,7 @@ class JWCrawler(VRUCCrawler):
         super().__init__(student_id, password)
         response = super().post("https://jw.ruc.edu.cn/secService/logout?resourceCode=resourceCode&apiCode=framework.sign.controller.SignController.logout")
         redirect_uri = json.loads(response.text)["data"]
-        response = super().get(redirect_uri, allow_redirects=False)
-        redirect_uri = response.headers["Location"]
+        # the second last history set the "token" cookie
         response = super().get(redirect_uri)
         self.token = self.session.cookies.get_dict()["token"]
 
@@ -80,7 +80,7 @@ class JWCrawler(VRUCCrawler):
         return headers
 
 
-    def get_grade(self):
+    def get_grades(self):
         headers = self.get_headers()
         headers["Content-Type"] = 'application/json'
         page = {
@@ -98,4 +98,6 @@ class JWCrawler(VRUCCrawler):
         }
 
         response = self.post("https://jw.ruc.edu.cn/resService/jwxtpt/v1/xsd/cjgl_xsxdsq/findKccjList?resourceCode=XSMH0507&apiCode=jw.xsd.xsdInfo.controller.CjglKccjckController.findKccjList", data=json.dumps(data), headers=headers)
-        return json.loads(response.text)["data"]
+        grades = json.loads(response.text)["data"]
+        grades = parse_grades(grades)
+        return grades
