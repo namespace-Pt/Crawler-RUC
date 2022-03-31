@@ -16,3 +16,6 @@ To use,
    ```
    - currently, the main.py is used for retrieving all your grades and saving at `data/grades.json`
    - all crawlers are defined in `crawlers.py`
+
+## Thanks
+Thanks for [@邵总](https://github.com/rainym00d).
