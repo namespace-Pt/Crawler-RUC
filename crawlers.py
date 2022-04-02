@@ -29,7 +29,7 @@ class VRUCCrawler():
         }
 
         session = requests.Session()
-        self.response = session.post(url=login_url, data=json.dumps(data), headers=headers)
+        session.post(url=login_url, data=json.dumps(data), headers=headers)
         self.session = session
 
 
@@ -44,7 +44,7 @@ class VRUCCrawler():
         ]
         headers = {
             "User-Agent": random.choice(user_agent_pool),
-            "Accept": "application/json, text/plain, */*"
+            "Accept": "application/xhtml+xml,application/json,text/plain,*/*"
         }
         return headers
 
